@@ -1,200 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bhawna Creatives</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #fff0f5;
-      color: #333;
-    }
-    header {
-      text-align: center;
-      background: #ffe4e6;
-      padding: 3rem 1rem;
-    }
-    header img {
-      width: 130px;
-      height: 130px;
-      border-radius: 20px;
-      border: 4px solid #f9a8d4;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      object-fit: cover;
-    }
-    header h1 {
-      color: #db2777;
-      font-size: 2.5rem;
-      margin: 1rem 0 0.5rem;
-    }
-    header p {
-      max-width: 600px;
-      margin: 0 auto;
-      font-size: 1.1rem;
-      color: #555;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-      background: #fbcfe8;
-      padding: 1rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    }
-    nav a {
-      background: #ec4899;
-      color: white;
-      padding: 0.6rem 1.2rem;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-    nav a:hover {
-      background: #db2777;
-    }
-    section {
-      padding: 3rem 1rem;
-      text-align: center;
-    }
-    h2 {
-      font-size: 1.8rem;
-      color: #db2777;
-      margin-bottom: 1.5rem;
-    }
-    .gallery img {
-      width: 100%;
-      max-width: 300px;
-      border-radius: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
-    }
-    .gallery img:hover {
-      transform: scale(1.05);
-    }
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-    }
-    .button {
-      display: inline-block;
-      background: #db2777;
-      color: white;
-      padding: 0.8rem 1.5rem;
-      border-radius: 999px;
-      font-weight: 600;
-      text-decoration: none;
-      margin-top: 1rem;
-    }
-    .button:hover {
-      background: #be185d;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-      font-size: 1.1rem;
-    }
-    ul li {
-      margin-bottom: 0.8rem;
-    }
-    textarea {
-      width: 100%;
-      max-width: 600px;
-      padding: 1rem;
-      border-radius: 1rem;
-      border: 1px solid #f9a8d4;
-      margin-bottom: 1rem;
-    }
-    footer {
-      text-align: center;
-      padding: 2rem 1rem;
-      background: #ffe4e6;
-      color: #666;
-      font-size: 0.9rem;
-    }
-    footer a {
-      color: #db2777;
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
+from fpdf import FPDF
 
-  <header>
-    <img src="b2.gif" alt="Bhawna Avatar" />
-    <h1>Welcome to Bhawna Creatives</h1>
-    <p>
-      Where imagination finds its wings —
-      <br> animations that soothe your soul,
-      <br> illustrations that tell your story,
-      <br> and visuals that connect emotions.
-    </p>
-  </header>
+class ColorfulResume(FPDF):
+    def header(self):
+        self.set_font("Helvetica", "B", 16)
+        self.set_text_color(40, 40, 40)
+        self.cell(0, 10, "Bhawna Bharti", ln=True, align="C")
+        self.set_font("Helvetica", "", 12)
+        self.cell(0, 10, "2D Animator & Creative Professional", ln=True, align="C")
+        self.ln(10)
 
-  <nav>
-    <a href="#animation">Animation</a>
-    <a href="#illustration">Illustration</a>
-    <a href="#collaboration">Collaboration</a>
-    <a href="#bookedits">Book Edits</a>
-  </nav>
+    def add_section(self, title):
+        self.set_font("Helvetica", "B", 12)
+        self.set_text_color(0, 102, 204)
+        self.cell(0, 10, title, ln=True)
+        self.set_text_color(0, 0, 0)
 
-  <section id="animation">
-    <h2>🌟 Featured Animation</h2>
-    <video controls width="80%" style="max-width:600px; border-radius: 1rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-      <source src="b2.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-  </section>
+    def add_list(self, items):
+        self.set_font("Helvetica", "", 11)
+        for item in items:
+            self.multi_cell(0, 6, f"- {item}")
+        self.ln(2)
 
-  <section id="illustration">
-    <h2>🖌 Illustrations</h2>
-    <div class="gallery">
-      <img src="b2.gif" alt="Illustration 1" />
-      <img src="b2.gif" alt="Illustration 2" />
-      <img src="b2.gif" alt="Illustration 3" />
-    </div>
-  </section>
+    def add_table(self, data):
+        self.set_font("Helvetica", "", 11)
+        col_widths = [50, 50, 50]
+        for row in data:
+            for i, item in enumerate(row):
+                self.cell(col_widths[i], 6, item, border=1)
+            self.ln()
+        self.ln(4)
 
-  <section id="collaboration">
-    <h2>🤝 Collaborate With Me</h2>
-    <p>
-      Open to animation projects, creative editing, and soulful collabs.
-      <br> Let's co-create magic!
-    </p>
-    <a class="button" href="https://wa.me/919263300290">Connect on WhatsApp</a>
-  </section>
+class CleanResume(ColorfulResume):
+    def contact_section(self):
+        self.set_font("Helvetica", "", 11)
+        self.set_text_color(80, 80, 80)
+        self.multi_cell(0, 6, "RANCHI, JHARKHAND    Phone: +91-9263300290")
+        self.multi_cell(0, 6, "Email: bhartibhawna4488@gmail.com")
+        self.multi_cell(0, 6, "Portfolio: https://bhawnacreatives.netlify.app/")
+        self.multi_cell(0, 6, "LinkedIn: https://www.linkedin.com/in/bhawna-bharti-25ba2a316")
+        self.multi_cell(0, 6, "Behance: https://www.behance.net/bhawnabharti48")
+        self.ln(4)
 
-  <section id="bookedits">
-    <h2>💖 Services & Cost</h2>
-    <ul>
-      <li>✨ 2D Animation Edits – ₹800 per minute with 1 revision</li>
-      <li>✨ 2D Animation Edits – ₹1000 per minute with 2 revisions</li>
-      <li>🎨 Character Illustration – ₹200 per character</li>
-      <li>🎮 Infographic Edits – ₹400 per minute</li>
-    </ul>
-    <a class="button" href="https://wa.me/919263300290">Book Your Edit on WhatsApp</a>
-  </section>
+# Create PDF instance and build resume
+pdf = CleanResume()
+pdf.add_page()
+pdf.contact_section()
 
-  <section id="feedback">
-    <h2>💬 Feedback & Comments</h2>
-    <form>
-      <textarea rows="4" placeholder="Leave a comment or feedback..."></textarea>
-      <br>
-      <button class="button">Submit Feedback</button>
-    </form>
-  </section>
+pdf.add_section("Career Objective")
+pdf.set_font("Helvetica", "", 11)
+pdf.multi_cell(0, 6,
+    "Creative and self-driven professional with a background in 2D animation and design. Experienced in using tools like Adobe Animate, Adobe Illustrator, and DaVinci Resolve to create engaging visuals and animation. Strong command over Adobe Animate (Rigging, lip synching, walk cycle, armature & frame-by-frame). Seeking a role to deliver impactful visuals and add real value to people, along with learning."
+)
 
-  <footer>
-    <p>📧 bhartibhawna4488@example.com | 
-      <a href="https://www.behance.net/bhawnabharti48" target="_blank">Behance</a>
-    </p>
-    <p>© 2025 Bhawna Creatives</p>
-  </footer>
+pdf.add_section("Skills")
+pdf.add_list([
+    "Adobe Animate (2D Animation & Illustration)",
+    "Adobe Illustrator (Props design)",
+    "Organisational skills (Google Drive, Google Sheets, Google Docs)",
+    "Storytelling & Visual Thinking",
+    "AI Tools (ChatGPT, Canva AI, Leonardo AI)",
+    "Team collaboration",
+    "Problem-solving and Adaptability",
+    "Creative Writing and Time Management"
+])
 
-</body>
-</html>
+pdf.add_section("Tools")
+tools_data = [
+    ("Adobe Animate", "Advanced", "5 Stars"),
+    ("Adobe Illustrator", "Intermediate", "3 Stars"),
+    ("DaVinci Resolve", "Intermediate", "3 Stars"),
+    ("After Effects", "Basic (Learning)", "1 Star"),
+]
+pdf.add_table(tools_data)
+
+pdf.add_section("Creative Projects")
+pdf.add_list([
+    "Assisted as an animator to design character and landscape for a Hindi horror YouTube channel.",
+    "Fiction & Personal Blogs - Wrote short blogs on healing, self-worth, and personal reflections.",
+    "Designed & developed my personal portfolio website (https://bhawnacreatives.netlify.app/)",
+    "Currently working on soft ASMR-style animation project."
+])
+
+pdf.add_section("Education")
+pdf.add_list([
+    "St. Xavier's College, Ranchi - B.Sc. (Hons) in Botany, 2018-2021"
+])
+
+pdf.add_section("Other Experience")
+pdf.add_list([
+    "Freelance animation and creative writing work.",
+    "Internship at IQM to animate educational and infographic work."
+])
+
+pdf.add_section("Languages")
+pdf.add_list([
+    "Hindi - Native",
+    "English - Fluent"
+])
+
+pdf.add_section("Availability")
+pdf.add_list([
+    "Open to full-time, part-time, freelance, or remote opportunities",
+    "Ready to start immediately"
+])
+
+# Save PDF
+pdf.output("Bhawna_Bharti_Resume_ColorStyled.pdf")
+print("PDF generated successfully!")
